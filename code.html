@@ -2,7 +2,7 @@
 <html lang="en" class="h-100">
 
 <head>
-    <title>App Name: A Coding Project By Jozef Csörgei</title>
+    <title>Mortgage Loan Calculator: A Coding Project By Jozef Csörgei</title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -23,8 +23,8 @@
     <!-- ==== Nav Section ==== -->
     <nav class="navbar navbar-expand-md navbar-dark fixed-top">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#"><img src="img/logo_light.svg"
-                    class="d-inline-block align-text-top " width="24" height="24"> APP NAME</a>
+            <a class="navbar-brand" href="#"><img src="img/logo_light.svg" class="d-inline-block align-text-top "
+                    width="24" height="24"> Mortgage Loan Calculator</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
                 aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -41,7 +41,7 @@
                         <a class="nav-link active" aria-current="page" href="code.html">The Code</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" target="_blank" href="#">Git Repo</a>
+                        <a class="nav-link" target="_blank" href="https://github.com/jcsorgei/Mortgage-Loan-Calculator">Git Repo</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" target="_blank" href="https://jcsorgei-portfolio.netlify.app/">About</a>
@@ -53,22 +53,98 @@
     <!-- ==== Main Section ==== -->
     <main class="flex-shrink-0">
         <div class="container py-5 px-5 mt-5">
-            <h2 class="border-1 border-bottom border-dark">The Code for APP NAME.</h2>
+            <h2 class="border-1 border-bottom border-dark">The Code for Mortgage Loan Calculator.</h2>
             <div class="row row-cols-1 row-cols-lg-2">
                 <div class="col-lg-8">
                     <pre class="line-numbers">
                         <code class="language-javascript">
-                            //Call Hello World
-                            function HelloWorld(){
-                                alert("hello World");
+                            // get input values from user
+                            function getValues() {
+                                let loanAmount = document.getElementById("loanAmount").value;
+                                let term = document.getElementById("term").value;
+                                let rate = document.getElementById("rate").value;
+                            
+                                //trying to convert values to float
+                                loanAmount = parseFloat(loanAmount);
+                                term = parseFloat(term);
+                                rate = parseFloat(rate);
+                            
+                                //checks if all values are numbers
+                                if (isNaN(loanAmount) || isNaN(term) || isNaN(rate)) {
+                                    alert("Enter valid numbers!")
+                                } else {
+                                    calculate(loanAmount, term, rate);
+                                }
+                            
+                            }
+                            
+                            // calculate totalMonthlyPayment,remainingBalance,totalInterest,interest,principal,totalCost,remaingBalance using formulas
+                            function calculate(loanAmount, term, rate) {
+                            
+                                let totalMonthlyPayment = loanAmount * (rate / 1200) / (1 - (1 + rate / 1200) ** (-term));
+                                let remainingBalance = loanAmount;
+                                let totalInterest = 0;
+                            
+                                //calculate the values for each month
+                                for (let i = 1; i <= term; i++) {
+                                    let interest = remainingBalance * rate / 1200;
+                                    let principal = totalMonthlyPayment - interest;
+                                    remainingBalance = remainingBalance - principal;
+                                    totalInterest += interest;
+                            
+                                    updateTable(i, totalMonthlyPayment, principal, interest, totalInterest, remainingBalance);
+                                }
+                            
+                                let totalCost = loanAmount + totalInterest;
+                            
+                                updateDisplay(totalMonthlyPayment, loanAmount, totalInterest, totalCost);
+                            }
+                            
+                            // create a table row with the calculated values and insert it to the table
+                            function updateTable(month, totalMonthlyPayment, principal, interest, totalInterest, remainingBalance) {
+                            
+                                let templateRow = document.getElementById("templateRow");
+                                let tableRow = document.importNode(templateRow.content, true);
+                            
+                                let tableBody = document.getElementById("results");
+                            
+                                let rowcols = tableRow.querySelectorAll("td");
+                                rowcols[0].textContent = month;
+                                rowcols[1].textContent = totalMonthlyPayment.toFixed(2).toLocaleString();
+                                rowcols[2].textContent = principal.toFixed(2).toLocaleString();
+                                rowcols[3].textContent = interest.toFixed(2).toLocaleString();
+                                rowcols[4].textContent = totalInterest.toFixed(2).toLocaleString();
+                                rowcols[5].textContent = remainingBalance.toFixed(2).toLocaleString();
+                            
+                                tableBody.appendChild(tableRow);
+                            }
+                            
+                            // update the display with the calculated values
+                            function updateDisplay(monthlyPayment, totalPrincipal, totalInterest, totalCost) {
+                                document.getElementById("monthlyPayment").textContent = "$" + monthlyPayment.toFixed(2);
+                                document.getElementById("totalPrincipal").textContent = "$" + totalPrincipal.toFixed(2);
+                                document.getElementById("totalInterest").textContent = "$" + totalInterest.toFixed(2);
+                                document.getElementById("totalCost").textContent = "$" + totalCost.toFixed(2);
                             }
                         </code>
                     </pre>
                 </div>
                 <div class="col-lg-4">
-                    <p>The Code is structed in one function.</p>
-                    <h5>Hello World</h5>
-                    <p>Hello World is a function that displays an alert with a message of "Hello World"</p>
+                    <p>The Code consists of 4 functions</p>
+                    <h5>getValues</h5>
+                    <p>getValues is a function that gets the values from user input and parses them to float. If the
+                        parsing was successful it calls the <strong>calculate</strong> function with the parsed values.
+                        Otherwise it alerts the user: "Enter valid numbers!"</p>
+                    <h5>calculate</h5>
+                    <p>The function calculates
+                        totalMonthlyPayment, remainingBalance, totalInterest, interest, principal, totalCost,
+                        remaingBalance
+                        using formulas based on the function's input values. Then it passes the calculated values to updateTable and
+                        updateDisplay functions.</p>
+                    <h5>updateTable</h5>
+                    <p>The function creates a template table row with the function's input values and appends it to the table.</p>
+                    <h5>updateDisplay</h5>
+                    <p>The function updates the display component with the function's input values.</p>
                 </div>
             </div>
         </div>
@@ -85,11 +161,15 @@
                 </div>
                 <div class="col d-flex align-items-center justify-content-start justify-content-lg-end">
                     <div class="row">
-                        <div class="col social"><a target="_blank" href="https://www.linkedin.com/in/jozef-cs%C3%B6rgei-659347217/"><i class="fab fa-linkedin fa-2x"></i></a>
+                        <div class="col social"><a target="_blank"
+                                href="https://www.linkedin.com/in/jozef-cs%C3%B6rgei-659347217/"><i
+                                    class="fab fa-linkedin fa-2x"></i></a>
                         </div>
-                        <div class="col social"><a target="_blank" href="https://github.com/jcsorgei"><i class="fab fa-github fa-2x"></i></a>
+                        <div class="col social"><a target="_blank" href="https://github.com/jcsorgei"><i
+                                    class="fab fa-github fa-2x"></i></a>
                         </div>
-                        <div class="col social"><a target="_blank" href="https://twitter.com/JCsorgei"><i class="fab fa-twitter fa-2x"></i></a>
+                        <div class="col social"><a target="_blank" href="https://twitter.com/JCsorgei"><i
+                                    class="fab fa-twitter fa-2x"></i></a>
                         </div>
                     </div>
                 </div>

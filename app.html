@@ -2,7 +2,7 @@
 <html lang="en" class="h-100">
 
 <head>
-    <title>App Name: A Coding Project By Jozef Csörgei</title>
+    <title>Mortgage Loan Calculator: A Coding Project By Jozef Csörgei</title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -22,8 +22,8 @@
     <!-- ==== Nav Section ==== -->
     <nav class="navbar navbar-expand-md navbar-dark fixed-top">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#"><img src="img/logo_light.svg"
-                    class="d-inline-block align-text-top" width="24" height="24"> APP NAME</a>
+            <a class="navbar-brand" href="#"><img src="img/logo_light.svg" class="d-inline-block align-text-top"
+                    width="24" height="24"> Mortgage Loan Calculator</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
                 aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -40,7 +40,7 @@
                         <a class="nav-link" href="code.html">The Code</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" target="_blank" href="#">Git Repo</a>
+                        <a class="nav-link" target="_blank" href="https://github.com/jcsorgei/Mortgage-Loan-Calculator">Git Repo</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" target="_blank" href="https://jcsorgei-portfolio.netlify.app/">About</a>
@@ -52,7 +52,69 @@
     <!-- ==== Main Section ==== -->
     <main class="flex-shrink-0">
         <div class="container">
+            <h1 class="my-3">Loan Calculator</h1>
+            <div class="row row-cols-1 row-cols-lg-2">
+                <div class="col bg-light rounded p-3 border">
+                    <form>
+                        <div class="mb-3">
+                            <label for="loanAmount">Loan Amount</label>
+                            <input type="number" id="loanAmount" class="form-control">
+                        </div>
+                        <div class="mb-3">
+                            <label for="term">Term (Months)</label>
+                            <input type="number" id="term" class="form-control">
+                        </div>
+                        <div class="mb-3">
+                            <label for="rate">Interest Rate</label>
+                            <input type="number" id="rate" class="form-control">
+                        </div>
+                        <div class="row">
+                            <div class="col d-flex justify-content-end">
+                                <button type="button" id="submitBtn"
+                                    class="btn btn-outline-secondary">Calculate</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col p-3">
+                    <div class="row">
+                        <div class="col-12 d-flex justify-content-center">
+                            <h5 class="text-dark"><i>Your Monthly Payments</i></h5>
+                        </div>
+                        <div class="col-12 d-flex justify-content-center">
+                            <h1 id="monthlyPayment" class="display-5 fw-bold mt-2 text-dark"></h1>
+                        </div>
+                        <div class="row row-cols-2 justify-content-between mt-3">
+                            <div class="col mb-2">Total Principal</div>
+                            <div id="totalPrincipal" class="col text-end"></div>
+                            <div class="col mb-2">Total Interest</div>
+                            <div id="totalInterest" class="col text-end"></div>
+                            <div class="col mb-2">Total Cost</div>
+                            <div  class="col text-end"><strong id="totalCost"></strong></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
+            <div class="row">
+                <table class="table table-striped border mt-4">
+                    <thead>
+                        <tr class="table-light">
+                            <th>Month</th>
+                            <th>Payment</th>
+                            <th>Principal</th>
+                            <th>Interest</th>
+                            <th>Total Interest</th>
+                            <th>Balance</th>
+                        </tr>
+                    </thead>
+                    <tbody id="results">
+
+                    </tbody>
+
+                </table>
+
+            </div>
         </div>
     </main>
     <!-- ==== Footer Section ==== -->
@@ -67,17 +129,31 @@
                 </div>
                 <div class="col d-flex align-items-center justify-content-start justify-content-lg-end">
                     <div class="row">
-                        <div class="col social"><a target="_blank" href="https://www.linkedin.com/in/jozef-cs%C3%B6rgei-659347217/"><i class="fab fa-linkedin fa-2x"></i></a>
+                        <div class="col social"><a target="_blank"
+                                href="https://www.linkedin.com/in/jozef-cs%C3%B6rgei-659347217/"><i
+                                    class="fab fa-linkedin fa-2x"></i></a>
                         </div>
-                        <div class="col social"><a target="_blank" href="https://github.com/jcsorgei"><i class="fab fa-github fa-2x"></i></a>
+                        <div class="col social"><a target="_blank" href="https://github.com/jcsorgei"><i
+                                    class="fab fa-github fa-2x"></i></a>
                         </div>
-                        <div class="col social"><a target="_blank" href="https://twitter.com/JCsorgei"><i class="fab fa-twitter fa-2x"></i></a>
+                        <div class="col social"><a target="_blank" href="https://twitter.com/JCsorgei"><i
+                                    class="fab fa-twitter fa-2x"></i></a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </footer>
+    <template id="templateRow">
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </template>
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
         integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous">
@@ -86,6 +162,9 @@
         integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous">
     </script>
     <script src="js/site.js"></script>
+    <script>
+        document.getElementById("submitBtn").addEventListener("click",getValues);
+    </script>
 </body>
 
 </html>
